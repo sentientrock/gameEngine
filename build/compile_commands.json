@@ -1,7 +1,0 @@
-[
-{
-  "directory": "C:/Users/amaze/personal_projects/engine/build",
-  "command": "C:\\msys64\\mingw64\\bin\\g++.exe   -O2 -g -DNDEBUG -o CMakeFiles\\helloWorld.dir\\src\\compiled.cpp.obj -c C:\\Users\\amaze\\personal_projects\\engine\\src\\compiled.cpp",
-  "file": "C:/Users/amaze/personal_projects/engine/src/compiled.cpp"
-}
-]
