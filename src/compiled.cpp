@@ -1,5 +1,5 @@
 #include <iostream>
-#include "practice\tester.h"
+#include "tester.h"
 
 using namespace std;
 using namespace tester;

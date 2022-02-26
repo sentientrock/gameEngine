@@ -33,3 +33,7 @@
 
 # VSCode directory
 .vscode
+
+#CMake files
+.build
+CMake.txt
