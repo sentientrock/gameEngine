@@ -14,6 +14,12 @@
 				"main.cpp",
 				"src/glad.c",
     			"-lglfw3dll",
+				"src/shader.cpp",
+				"src/texture.cpp",
+				"src/resource_manager.cpp",
+				"src/sprite_renderer.cpp",
+				"src/scene.cpp",
+				"src/game.cpp",
 				"-o",
 				"${workspaceFolder}/game.exe"
 			],
