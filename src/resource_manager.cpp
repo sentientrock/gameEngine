@@ -46,6 +46,17 @@ Scene ResourceManager::GetScene(std::string name)
     return GameScenes[name];
 }
 
+Scene ResourceManager::SetCurrentScene(Scene scene)
+{
+    GameScenes["currentscene"] = scene;
+    return GameScenes["currentscene"];
+}
+
+Scene ResourceManager::GetCurrentScene()
+{
+    return GameScenes["currentscene"];
+}
+
 void ResourceManager::Clear()
 {
     // (properly) delete all shaders	

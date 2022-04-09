@@ -15,6 +15,8 @@ const unsigned int SCREEN_WIDTH = 1458;
 // The height of the screen
 const unsigned int SCREEN_HEIGHT = 700;
 
+const float MS_UPDATE = .0015;
+
 Game Novel(SCREEN_WIDTH, SCREEN_HEIGHT);
 
 int main(int argc, char *argv[])
@@ -57,6 +59,7 @@ int main(int argc, char *argv[])
     // -------------------
     float deltaTime = 0.0f;
     float lastFrame = 0.0f;
+    float lag = 0.0f;
 
     while (!glfwWindowShouldClose(window))
     {
@@ -65,6 +68,7 @@ int main(int argc, char *argv[])
         float currentFrame = glfwGetTime();
         deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
+        lag += deltaTime;
         glfwPollEvents();
 
         // manage user input
@@ -73,14 +77,18 @@ int main(int argc, char *argv[])
 
         // update game state
         // -----------------
-        Novel.Update(deltaTime);
+        
 
         // render
         // ------
+        while (lag >= MS_UPDATE) {
+            Novel.Update(deltaTime);
+            lag -= MS_UPDATE;
+        }
+
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
         Novel.Render();
-
         glfwSwapBuffers(window);
     }
 

@@ -2,12 +2,13 @@
 #include "resource_manager.h"
 #include "sprite_renderer.h"
 #include "scene.h"
+#include "text_renderer.h"
 #include <iostream>
 
 
 // Game-related State data
 SpriteRenderer  *Renderer;
-
+TextRenderer    *Text;
 
 Game::Game(unsigned int width, unsigned int height) 
     : State(GAME_ACTIVE), Keys(), Width(width), Height(height)
@@ -36,13 +37,26 @@ void Game::Init()
     // load textures
     ResourceManager::LoadTexture("resources/taylor worried.png", true, "char");
     ResourceManager::LoadTexture("resources/classroom light.png", true, "face");
+    ResourceManager::LoadTexture("resources/bedroom.png", true, "secondBack");
     Scene BackScene;
-    BackScene.LoadBackground(ResourceManager::GetTexture("face"));
+    Scene NextScene;
+    BackScene.AddBackground(ResourceManager::GetTexture("face"));
+    BackScene.AddSprite(ResourceManager::GetTexture("char"), 955.0f, 0.0f, 503.0f, 700.0f, 0.0f, 1.0f, 1.0f, 1.0f);
+    NextScene.AddBackground(ResourceManager::GetTexture("secondBack"));
+    NextScene.AddSprite(ResourceManager::GetTexture("char"), 955.0f, 0.0f, 503.0f, 700.0f, 0.0f, 1.0f, 1.0f, 1.0f);
     ResourceManager::LoadScene(BackScene, "background");
+    ResourceManager::LoadScene(NextScene, "nextScene");
+    ResourceManager::SetCurrentScene(BackScene);
+
+    Text = new TextRenderer(this->Width, this->Height);
+    Text->Load("fonts/LilitaOne-Regular.ttf", 50);
 }
 
 void Game::Update(float dt)
 {
+    if (Keys[GLFW_KEY_W]) {
+        ResourceManager::SetCurrentScene(ResourceManager::GetScene("nextScene"));
+    }
     
 }
 
@@ -53,11 +67,6 @@ void Game::ProcessInput(float dt)
 
 void Game::Render()
 {
-    Texture2D myTexture2;
-    Texture2D myTexture1;
-    myTexture1 = ResourceManager::GetScene("background").background;
-    myTexture2 = ResourceManager::GetTexture("char");
-    Renderer->DrawSprite(myTexture1, glm::vec2(0.0f, 0.0f), glm::vec2(static_cast<float>(this->Width), 
-        static_cast<float>(this->Height)), 0.0f, glm::vec3(1.0f, 1.0f, 1.0f));
-    Renderer->DrawSprite(myTexture2, glm::vec2(955.0f,0.0f), glm::vec2(503.0f, 700.0f), 0.0f, glm::vec3(1.0f, 1.0f, 1.0f));
+    Scene myTexture1 = ResourceManager::GetCurrentScene();
+    myTexture1.RenderScene(Renderer, Text);
 }
