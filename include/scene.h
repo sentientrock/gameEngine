@@ -26,9 +26,16 @@ class Scene
         
         Texture2D           background;
         std::string         nextScene;
+        std::string         sceneText;
+        std::string         renderText;
         std::vector<sprite> sprites;
+        float               sceneTime;
+        int                 character;
 
         Scene();
+
+        // update method for scene
+        void Update(float dt);
 
         // sets the background scene
         Texture2D LoadBackground(Texture2D BackTex);
@@ -39,6 +46,9 @@ class Scene
 
         // helper method to add background with default values
         void AddBackground(Texture2D texture);
+
+        // set text of scene
+        void SetText(std::string text);
 
         // renders the scene 
         void RenderScene(SpriteRenderer *Renderer, TextRenderer *Text);

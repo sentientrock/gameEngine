@@ -5,10 +5,11 @@
 #include "text_renderer.h"
 #include <iostream>
 
-
 // Game-related State data
 SpriteRenderer  *Renderer;
 TextRenderer    *Text;
+
+float Game::gameTime = 0;
 
 Game::Game(unsigned int width, unsigned int height) 
     : State(GAME_ACTIVE), Keys(), Width(width), Height(height)
@@ -38,12 +39,17 @@ void Game::Init()
     ResourceManager::LoadTexture("resources/taylor worried.png", true, "char");
     ResourceManager::LoadTexture("resources/classroom light.png", true, "face");
     ResourceManager::LoadTexture("resources/bedroom.png", true, "secondBack");
+    ResourceManager::LoadTexture("resources/text box.png", true, "textbox");
     Scene BackScene;
     Scene NextScene;
     BackScene.AddBackground(ResourceManager::GetTexture("face"));
     BackScene.AddSprite(ResourceManager::GetTexture("char"), 955.0f, 0.0f, 503.0f, 700.0f, 0.0f, 1.0f, 1.0f, 1.0f);
+    BackScene.AddSprite(ResourceManager::GetTexture("textbox"), 20.0f, 445.0f, 1418.0f, 260.0f, 0.0f, 1.0f, 1.0f, 1.0f);
+    BackScene.SetText("hello this is some textaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
     NextScene.AddBackground(ResourceManager::GetTexture("secondBack"));
     NextScene.AddSprite(ResourceManager::GetTexture("char"), 955.0f, 0.0f, 503.0f, 700.0f, 0.0f, 1.0f, 1.0f, 1.0f);
+    NextScene.AddSprite(ResourceManager::GetTexture("textbox"), 20.0f, 445.0f, 1418.0f, 260.0f, 0.0f, 1.0f, 1.0f, 1.0f);
+    NextScene.SetText("this is so more tesrr waasfasaaaaaaaaaaaaaaaaaa");
     ResourceManager::LoadScene(BackScene, "background");
     ResourceManager::LoadScene(NextScene, "nextScene");
     ResourceManager::SetCurrentScene(BackScene);
@@ -57,7 +63,9 @@ void Game::Update(float dt)
     if (Keys[GLFW_KEY_W]) {
         ResourceManager::SetCurrentScene(ResourceManager::GetScene("nextScene"));
     }
-    
+
+    ResourceManager::GetCurrentScene()->Update(dt);
+
 }
 
 void Game::ProcessInput(float dt)
@@ -67,6 +75,6 @@ void Game::ProcessInput(float dt)
 
 void Game::Render()
 {
-    Scene myTexture1 = ResourceManager::GetCurrentScene();
-    myTexture1.RenderScene(Renderer, Text);
+    Scene* myTexture1 = ResourceManager::GetCurrentScene();
+    myTexture1->RenderScene(Renderer, Text);
 }

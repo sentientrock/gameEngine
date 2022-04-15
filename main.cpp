@@ -15,7 +15,7 @@ const unsigned int SCREEN_WIDTH = 1458;
 // The height of the screen
 const unsigned int SCREEN_HEIGHT = 700;
 
-const float MS_UPDATE = .0015;
+const double MS_UPDATE = 0.015;
 
 Game Novel(SCREEN_WIDTH, SCREEN_HEIGHT);
 
@@ -28,12 +28,11 @@ int main(int argc, char *argv[])
 #ifdef __APPLE__
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
-    glfwWindowHint(GLFW_RESIZABLE, false);
-
-
+    glfwWindowHint(GLFW_RESIZABLE, true);
 
     GLFWwindow* window = glfwCreateWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "test_file", nullptr, nullptr);
     glfwMakeContextCurrent(window);
+    glfwSetWindowAspectRatio(window, SCREEN_WIDTH, SCREEN_HEIGHT);
     // glad: load all OpenGL function pointers
     // ---------------------------------------
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
@@ -57,32 +56,28 @@ int main(int argc, char *argv[])
 
     // deltaTime variables
     // -------------------
-    float deltaTime = 0.0f;
-    float lastFrame = 0.0f;
-    float lag = 0.0f;
+    double deltaTime = 0.0, currentTime = 0.0;
+    double lastFrame = glfwGetTime();
+    double lag = 0.0;
 
     while (!glfwWindowShouldClose(window))
     {
         // calculate delta time
         // --------------------
-        float currentFrame = glfwGetTime();
-        deltaTime = currentFrame - lastFrame;
-        lastFrame = currentFrame;
+        currentTime = glfwGetTime();
+        deltaTime = currentTime - lastFrame;
+        lastFrame = currentTime;
         lag += deltaTime;
         glfwPollEvents();
 
         // manage user input
         // -----------------
         Novel.ProcessInput(deltaTime);
-
-        // update game state
-        // -----------------
         
-
         // render
         // ------
         while (lag >= MS_UPDATE) {
-            Novel.Update(deltaTime);
+            Novel.Update(lag);
             lag -= MS_UPDATE;
         }
 

@@ -52,9 +52,9 @@ Scene ResourceManager::SetCurrentScene(Scene scene)
     return GameScenes["currentscene"];
 }
 
-Scene ResourceManager::GetCurrentScene()
+Scene* ResourceManager::GetCurrentScene()
 {
-    return GameScenes["currentscene"];
+    return &GameScenes["currentscene"];
 }
 
 void ResourceManager::Clear()

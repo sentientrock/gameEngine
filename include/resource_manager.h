@@ -38,7 +38,7 @@ public:
     // set the current scene
     static Scene SetCurrentScene(Scene scene);
     // get the current scene
-    static Scene GetCurrentScene();
+    static Scene* GetCurrentScene();
     // properly de-allocates all loaded resources
     static void      Clear();
 private:

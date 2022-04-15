@@ -23,6 +23,7 @@ public:
     GameState               State;	
     bool                    Keys[1024];
     unsigned int            Width, Height;
+    static float            gameTime;
 
     // constructor/destructor
     Game(unsigned int width, unsigned int height);
